@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response, Router } from "express";
 import { injectable } from "inversify";
 
-type ControllerMethod = (req: Request, res: Response) => void;
+type ControllerMethod = (req: Request, res: Response) => Promise<void>;
 
 @injectable()
 export abstract class RouteCollection {

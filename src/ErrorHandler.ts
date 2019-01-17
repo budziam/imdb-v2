@@ -17,8 +17,6 @@ export class ErrorHandler {
             return undefined;
         }
 
-        console.error(e);
-
         if (e instanceof EndpointNotFoundError) {
             return res.sendStatus(404);
         }

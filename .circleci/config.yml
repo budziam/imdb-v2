@@ -15,6 +15,7 @@ jobs:
         - v1-dependencies-{{ checksum "package.json" }}
         - v1-dependencies-
 
+    - run: cp .env.example .env
     - run: yarn install
 
     - save_cache:

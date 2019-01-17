@@ -8,6 +8,7 @@
     "comment-format": {
       "options": ["check-space"]
     },
+    "completed-docs": false,
     "file-name-casing": false,
     "interface-name": false,
     "member-ordering": false,
@@ -18,10 +19,15 @@
     "no-implicit-dependencies": false,
     "no-import-side-effect": false,
     "no-magic-numbers": false,
+    "no-inferred-empty-object-type": false,
     "no-parameter-properties": false,
+    "no-unbound-method": false,
+    "no-unsafe-any": false,
+    "no-void-expression": false,
     "object-literal-sort-keys": false,
     "prefer-function-over-method": false,
     "radix": false,
+    "strict-boolean-expressions": false,
     "typedef": [
       true,
       "call-signature",
