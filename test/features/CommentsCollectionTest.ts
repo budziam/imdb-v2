@@ -1,14 +1,14 @@
 import { Container } from "inversify";
 import { setup } from "../utils";
 
-it("Comments collection", () => {
+describe("Comments collection", () => {
     let container: Container;
 
     beforeEach(() => {
         container = setup();
     });
 
-    it("POST", () => {
+    describe("POST", () => {
         it("creates new comment", () => {
             // given
 
@@ -18,7 +18,7 @@ it("Comments collection", () => {
         });
     });
 
-    it("GET", () => {
+    describe("GET", () => {
         it("returns list of comments", () => {
             // given
 

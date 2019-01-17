@@ -9,14 +9,31 @@
       "options": ["check-space"]
     },
     "file-name-casing": false,
+    "interface-name": false,
+    "member-ordering": false,
     "newline-per-chained-call": false,
+    "no-any": false,
+    "no-default-export": false,
+    "no-duplicate-imports": false,
     "no-implicit-dependencies": false,
     "no-import-side-effect": false,
+    "no-magic-numbers": false,
+    "no-parameter-properties": false,
+    "prefer-function-over-method": false,
+    "radix": false,
     "typedef": [
       true,
+      "call-signature",
+      "arrow-call-signature",
       "parameter",
       "property-declaration",
       "member-variable-declaration"
+    ],
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "ban-keywords",
+      "check-format"
     ],
     "ban": [
       true,
