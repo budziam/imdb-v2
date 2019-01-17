@@ -1,0 +1,67 @@
+{
+  "name": "imdb-v2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Michał Budziak <michal.mariusz.b@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node app.ts",
+    "build": "tsc",
+    "test": "mocha",
+    "watch": "mocha --watch --watch-extensions ts",
+    "coverage": "nyc mocha",
+    "junit": "MOCHA_FILE=test-results/mocha/results.xml nyc mocha --reporter mocha-junit-reporter",
+    "lint": "tslint -p tsconfig.json -t stylish",
+    "lint-fix": "tslint -p tsconfig.json -t stylish --fix"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.12",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.0.1",
+    "winston": "^2.3.9"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/sinon": "^5.0.2",
+    "@types/sinon-chai": "^3.2.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.1.1",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^13.0.1",
+    "sinon": "^5.0.7",
+    "sinon-chai": "^3.2.0",
+    "source-map-support": "^0.5.9",
+    "tslint": "^5.11.0"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 0,
+    "branches": 0,
+    "functions": 0,
+    "lines": 0,
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ],
+    "all": true,
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sourcemap": true,
+    "instrument": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "lintOptions": {
+    "typeCheck": true
+  },
+  "extends": "tslint:all",
+  "rules": {
+    "ban-ts-ignore": false,
+    "newline-per-chained-call": false,
+    "no-implicit-dependencies": false,
+    "no-import-side-effect": false,
+    "typedef": [
+      true,
+      "parameter",
+      "property-declaration",
+      "member-variable-declaration"
+    ],
+    "ban": [
+      true,
+      [
+        "describe",
+        "only"
+      ],
+      [
+        "it",
+        "only"
+      ]
+    ]
+  }
+}
