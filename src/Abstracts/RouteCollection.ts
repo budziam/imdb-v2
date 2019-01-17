@@ -12,6 +12,7 @@ export abstract class RouteCollection {
         return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
             try {
                 await method(req, res);
+                next("ok");
             } catch (e) {
                 next(e);
             }

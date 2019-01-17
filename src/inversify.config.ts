@@ -1,12 +1,16 @@
-import "reflect-metadata";
 // tslint:disable-next-line:ordered-imports
 import { Container } from "inversify";
+// @ts-ignore
+import * as env from "node-env-file";
+import "reflect-metadata";
 import { AllRoutes } from "./AllRoutes";
 import { AppServer } from "./AppServer";
 import { Config, ConfigKey } from "./Config";
 import { ErrorHandler } from "./ErrorHandler";
 
 export const createContainer = (): Container => {
+    env(`${__dirname}/../.env`);
+
     const container = new Container({
         autoBindInjectable: true,
     });
@@ -16,6 +20,11 @@ export const createContainer = (): Container => {
     container.bind(Config)
         .toDynamicValue(() => new Config([
             [ConfigKey.PORT, process.env.APP_PORT || "3001"],
+            [ConfigKey.DB_HOST, process.env.DB_HOST || "postgres"],
+            [ConfigKey.DB_PORT, process.env.DB_PORT || "5432"],
+            [ConfigKey.DB_USERNAME, process.env.DB_USERNAME || "postgres"],
+            [ConfigKey.DB_PASSWORD, process.env.DB_PASSWORD || ""],
+            [ConfigKey.DB_DATABASE, process.env.DB_DATABASE || "app"],
         ]))
         .inSingletonScope();
 

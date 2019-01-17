@@ -19,12 +19,12 @@
     "no-import-side-effect": false,
     "no-magic-numbers": false,
     "no-parameter-properties": false,
+    "object-literal-sort-keys": false,
     "prefer-function-over-method": false,
     "radix": false,
     "typedef": [
       true,
       "call-signature",
-      "arrow-call-signature",
       "parameter",
       "property-declaration",
       "member-variable-declaration"

@@ -1,3 +1,4 @@
+import { boundClass } from "autobind-decorator";
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import { Express, Request, Response } from "express";
@@ -11,6 +12,7 @@ import { ErrorHandler } from "./ErrorHandler";
 import { EndpointNotFoundError } from "./Errors/EndpointNotFoundError";
 
 @injectable()
+@boundClass
 export class AppServer {
     private _app: Express;
     private server: Server;
@@ -48,16 +50,13 @@ export class AppServer {
     }
 
     private handleError(
-        error: object,
-        request: Request,
-        response: Response,
+        e: object,
+        req: Request,
+        res: Response,
         next: NextFunction,
-    ): Response {
-        if (error instanceof EndpointNotFoundError) {
-            return response.sendStatus(404);
-        }
-
-        return response.sendStatus(500);
+    ): void {
+        this.errorHandler.handleHttpError(e, req, res);
+        next();
     }
 
     private startServer(): Server {

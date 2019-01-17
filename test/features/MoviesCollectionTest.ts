@@ -4,53 +4,72 @@ import { Container } from "inversify";
 import * as httpMocks from "node-mocks-http";
 import { MockResponse } from "node-mocks-http";
 import { AppServer } from "../../src/AppServer";
-import { setup } from "../utils";
+import { MovieRepository } from "../../src/Repositories/MovieRepository";
+import { makeRequest, setupWithDb, tearDownWithDb } from "../utils";
 
 describe("Movies collection", () => {
     let container: Container;
     let appServer: AppServer;
     let app: Express;
-    let response: MockResponse<Response>;
+    let res: MockResponse<Response>;
+    let movieRepository: MovieRepository;
 
-    beforeEach(() => {
-        container = setup();
+    beforeEach(async () => {
+        container = await setupWithDb();
         appServer = container.get<AppServer>(AppServer);
         app = appServer.app;
-        response = httpMocks.createResponse();
+        res = httpMocks.createResponse();
+        movieRepository = container.get<MovieRepository>(MovieRepository);
+    });
+
+    afterEach(async () => {
+        await tearDownWithDb(container);
     });
 
     describe("POST", () => {
-        it("creates new movie", () => {
+        it("creates new movie", async () => {
             // given
-            const request = httpMocks.createRequest({
+            const name = "test";
+
+            const req = httpMocks.createRequest({
                 method: "POST",
                 url: "/movies",
+                body: {name},
             });
 
             // when
-            app(request, response);
+            await makeRequest(app, req, res);
 
             // then
-            expect(response.statusCode).to.equal(201);
-            expect(Object.keys(response._getData())).to.deep.equal(["id"]);
+            expect(res.statusCode).to.equal(201);
+            const json = res._getData();
+            expect(json.id).to.be.a("number");
+            expect(json.name).to.equal(name);
         });
     });
 
     describe("GET", () => {
-        it("returns list of movies", () => {
+        it("returns list of movies", async () => {
             // given
-            const request = httpMocks.createRequest({
+            const movie = await movieRepository.create({
+                name: "example",
+            });
+
+            const req = httpMocks.createRequest({
                 method: "GET",
                 url: "/movies",
             });
 
             // when
-            app(request, response);
+            await makeRequest(app, req, res);
 
             // then
-            expect(response.statusCode).to.equal(200);
-            expect(response._getData()).to.deep.equal([
-                {id: "test"},
+            expect(res.statusCode).to.equal(200);
+            expect(res._getData()).to.deep.equal([
+                {
+                    id: movie.id,
+                    name: movie.name,
+                },
             ]);
         });
     });

@@ -1,0 +1,10 @@
+{
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+    "src/Entities/**/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "src/Entities"
+  }
+}

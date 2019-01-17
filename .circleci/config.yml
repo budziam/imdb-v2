@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
     - image: circleci/node:latest
+    - image: circleci/postgres:latest
+      environment:
+        POSTGRES_USER: circleci
+        POSTGRES_DB: circle_test
 
     steps:
     - checkout
@@ -25,6 +29,10 @@ jobs:
     - run:
         name: Test
         command: yarn junit
+        environment:
+          DB_HOST: localhost
+          DB_USERNAME: circleci
+          DB_DATABASE: circle_test
 
     - store_test_results:
         path: test-results
