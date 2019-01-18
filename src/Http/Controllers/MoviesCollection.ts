@@ -5,6 +5,8 @@ import { Collection } from "../../Abstracts/Collection";
 import { Movie } from "../../Entities";
 import { MovieRepository } from "../../Repositories/MovieRepository";
 import { MovieService } from "../../Services/MoveService";
+import { OmdbError } from "../../Errors/OmdbError";
+import { serializeMovie } from "../../serializers";
 
 @injectable()
 @boundClass
@@ -23,25 +25,24 @@ export class MoviesCollection extends Collection {
 
         const movies = await this.movieRepository.list({skip, take});
 
-        // TODO Implement serializations
         res.status(200);
-        res.send(movies.map((movie) => this.serializeMovie(movie)));
+        res.json(movies.map(serializeMovie));
     }
 
     public async post(req: Request, res: Response): Promise<void> {
-        const movie = await this.movieService.create(req.body.title);
+        let movie: Movie;
+        try {
+            movie = await this.movieService.create(req.body.title);
+        } catch (e) {
+            if (e instanceof OmdbError) {
+                res.status(424);
+                res.json();
+            }
+
+            throw e;
+        }
 
         res.status(201);
-        res.send(this.serializeMovie(movie));
-    }
-
-    private serializeMovie(movie: Movie): object {
-        return {
-            id: movie.id,
-            title: movie.title,
-            year: movie.year,
-            released: movie.released,
-            plot: movie.plot,
-        };
+        res.json(serializeMovie(movie));
     }
 }

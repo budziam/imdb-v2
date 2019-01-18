@@ -9,11 +9,13 @@ import { CommentRepository } from "../../src/Repositories/CommentRepository";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
 import * as moment from "moment";
 import { DATETIME } from "../../src/Constants";
+import { Factory } from "../Factory";
 
 describe("Comments collection", () => {
     let container: Container;
     let appServer: AppServer;
     let app: Express;
+    let factory: Factory;
     let res: MockResponse<Response>;
     let movieRepository: MovieRepository;
     let commentRepository: CommentRepository;
@@ -23,6 +25,7 @@ describe("Comments collection", () => {
         appServer = container.get<AppServer>(AppServer);
         app = appServer.app;
         res = httpMocks.createResponse();
+        factory = container.get<Factory>(Factory);
         movieRepository = container.get<MovieRepository>(MovieRepository);
         commentRepository = container.get<CommentRepository>(CommentRepository);
     });
@@ -34,13 +37,7 @@ describe("Comments collection", () => {
     describe("POST", () => {
         it("creates new comment", async () => {
             // given
-            // TODO Move it to factories
-            const movie = await movieRepository.create({
-                title: "example",
-                year: 2018,
-                released: "asdas",
-                plot: "blah",
-            });
+            const movie = await factory.movie();
 
             const text = "Blah blah blah";
 
@@ -55,20 +52,14 @@ describe("Comments collection", () => {
 
             // then
             expect(res.statusCode).to.equal(201);
-            const json = res._getData();
+            const json = JSON.parse(res._getData());
             expect(json.id).to.be.a("number");
             expect(json.text).to.equal(text);
         });
 
         it("returns 422 when invalid body given", async () => {
             // given
-            // TODO Move it to factories
-            const movie = await movieRepository.create({
-                title: "example",
-                year: 2018,
-                released: "asdas",
-                plot: "blah",
-            });
+            const movie = await factory.movie();
 
             const req = httpMocks.createRequest({
                 method: "POST",
@@ -80,7 +71,7 @@ describe("Comments collection", () => {
 
             // then
             expect(res.statusCode).to.equal(422);
-            const json = res._getData();
+            const json = JSON.parse(res._getData());
             expect(json.message).to.equal("validation failed");
         });
     });
@@ -88,13 +79,7 @@ describe("Comments collection", () => {
     describe("GET", () => {
         it("returns list of comments", async () => {
             // given
-            // TODO Move it to factories
-            const movie = await movieRepository.create({
-                title: "example",
-                year: 2018,
-                released: "asdas",
-                plot: "blah",
-            });
+            const movie = await factory.movie();
 
             const comment = await commentRepository.create({
                 movie,
@@ -111,7 +96,8 @@ describe("Comments collection", () => {
 
             // then
             expect(res.statusCode).to.equal(200);
-            expect(res._getData()).to.deep.equal([
+            const json = JSON.parse(res._getData());
+            expect(json).to.deep.equal([
                 {
                     id: comment.id,
                     text: comment.text,

@@ -30,7 +30,7 @@ export class ErrorHandler {
         if (e instanceof ValidationError) {
             res.status(422);
 
-            return res.send({
+            return res.json({
                 message: e.message,
                 errors: e.errors,
             });

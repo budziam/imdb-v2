@@ -1,7 +1,8 @@
 import { injectable } from "inversify";
 import { Movie } from "../Entities";
-import { OmdbRequester } from "../OmdbRequester";
+import { OmdbMovie, OmdbRequester } from "../OmdbRequester";
 import { MovieRepository } from "../Repositories/MovieRepository";
+import { OmdbError } from "../Errors/OmdbError";
 
 @injectable()
 export class MovieService {
@@ -13,7 +14,13 @@ export class MovieService {
     }
 
     public async create(title: string): Promise<Movie> {
-        const omdbMovie = await this.omdbRequester.findByTitle(title);
+        let omdbMovie: OmdbMovie;
+        try {
+            omdbMovie = await this.omdbRequester.findByTitle(title);
+        } catch (e) {
+            // TODO Maybe we should implement some repetition with a backoff
+            throw new OmdbError("Could not find a movie");
+        }
 
         return this.movieRepository.create({
             title,

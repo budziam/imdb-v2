@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
 
-interface OmdbMovie {
+export interface OmdbMovie {
     Title: string;
     Year: string;
     Released: string;
@@ -23,6 +23,7 @@ export class OmdbRequester {
             t: title,
         };
 
+        // TODO Test what if title does not exist
         const response = await this.axios.get<OmdbMovie>("https://www.omdbapi.com", {params});
 
         return response.data;

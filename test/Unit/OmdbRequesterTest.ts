@@ -2,7 +2,7 @@ import { mockAxios, setup } from "../utils";
 import { expect } from "chai";
 import { Container } from "inversify";
 import { OmdbRequester } from "../../src/OmdbRequester";
-import { omdbMovie } from "../Fixtures";
+import { omdbMovie } from "../fixtures";
 
 describe("Omdb requester", () => {
     let container: Container;
