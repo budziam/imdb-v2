@@ -35,5 +35,9 @@ jobs:
           DB_USERNAME: circleci
           DB_DATABASE: circle_test
 
+    - run:
+        name: Coverage
+        command: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
+
     - store_test_results:
         path: test-results
