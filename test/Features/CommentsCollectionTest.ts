@@ -1,5 +1,6 @@
 import { makeRequest, setupWithDb, tearDownWithDb } from "../utils";
 import { expect } from "chai";
+import * as faker from "faker";
 import { Express, Response } from "express";
 import { Container } from "inversify";
 import * as httpMocks from "node-mocks-http";
@@ -38,8 +39,7 @@ describe("Comments collection", () => {
         it("creates new comment", async () => {
             // given
             const movie = await factory.movie();
-
-            const text = "Blah blah blah";
+            const text = faker.lorem.paragraph();
 
             const req = httpMocks.createRequest({
                 method: "POST",
@@ -80,11 +80,7 @@ describe("Comments collection", () => {
         it("returns list of comments", async () => {
             // given
             const movie = await factory.movie();
-
-            const comment = await commentRepository.create({
-                movie,
-                text: "foobar text",
-            });
+            const comment = await factory.comment({movie});
 
             const req = httpMocks.createRequest({
                 method: "GET",

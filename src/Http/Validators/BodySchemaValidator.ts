@@ -3,7 +3,7 @@ import { injectable } from "inversify";
 import { Validator } from "../../Abstracts/Validator";
 
 @injectable()
-export class SchemaValidator extends Validator {
+export class BodySchemaValidator extends Validator {
     public constructor(private readonly schema: any) {
         super();
     }

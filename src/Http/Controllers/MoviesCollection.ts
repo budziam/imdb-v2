@@ -19,9 +19,8 @@ export class MoviesCollection extends Collection {
     }
 
     public async get(req: Request, res: Response): Promise<void> {
-        // TODO Implement validation
         const skip = req.query.offset || 0;
-        const take = Math.min(req.query.limit || 50, 50);
+        const take = req.query.limit || 50;
 
         const movies = await this.movieRepository.list({skip, take});
 

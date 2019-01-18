@@ -3,8 +3,7 @@
   "additionalProperties": false,
   "properties": {
     "text": {
-      "type": "string",
-      "maxLength": 64
+      "type": "string"
     }
   },
   "required": ["text"]

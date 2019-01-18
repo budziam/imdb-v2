@@ -102,5 +102,26 @@ describe("Movies collection", () => {
                 },
             ]);
         });
+
+        it("can be limitted", async () => {
+            // given
+            await factory.movies(5);
+
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: "/movies",
+                query: {
+                    limit: 2,
+                }
+            });
+
+            // when
+            await makeRequest(app, req, res);
+
+            // then
+            expect(res.statusCode).to.equal(200);
+            const json = JSON.parse(res._getData());
+            expect(json.length).to.equal(2);
+        });
     });
 });

@@ -1,1 +1,1 @@
-export * from "./SchemaValidator";
+export * from "./BodySchemaValidator";
