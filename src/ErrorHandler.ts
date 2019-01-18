@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { injectable } from "inversify";
 import * as winston from "winston";
 import { EndpointNotFoundError } from "./Errors";
+import { EntityNotFoundError } from "typeorm/error/EntityNotFoundError";
 
 @boundClass
 @injectable()
@@ -19,6 +20,10 @@ export class ErrorHandler {
         }
 
         if (e instanceof EndpointNotFoundError) {
+            return res.sendStatus(404);
+        }
+
+        if (e instanceof EntityNotFoundError) {
             return res.sendStatus(404);
         }
 

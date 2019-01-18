@@ -5,6 +5,8 @@ import { Collection } from "../../Abstracts/Collection";
 import { Comment } from "../../Entities";
 import { CommentRepository } from "../../Repositories/CommentRepository";
 import { MovieRepository } from "../../Repositories/MovieRepository";
+import * as moment from "moment";
+import { DATETIME } from "../../Constants";
 
 @injectable()
 @boundClass
@@ -39,8 +41,7 @@ export class CommentsCollection extends Collection {
         return {
             id: comment.id,
             text: comment.text,
-            // TODO Use moment
-            date: comment.createdAt,
+            date: moment(comment.createdAt).format(DATETIME),
         };
     }
 }

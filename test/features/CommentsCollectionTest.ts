@@ -7,6 +7,8 @@ import { MockResponse } from "node-mocks-http";
 import { AppServer } from "../../src/AppServer";
 import { CommentRepository } from "../../src/Repositories/CommentRepository";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
+import * as moment from "moment";
+import { DATETIME } from "../../src/Constants";
 
 describe("Comments collection", () => {
     let container: Container;
@@ -113,9 +115,23 @@ describe("Comments collection", () => {
                 {
                     id: comment.id,
                     text: comment.text,
-                    date: comment.createdAt,
+                    date: moment(comment.createdAt).format(DATETIME),
                 },
             ]);
+        });
+
+        it("returns 404 if movie was not found", async () => {
+            // given
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: "/movies/30/comments",
+            });
+
+            // when
+            await makeRequest(app, req, res);
+
+            // then
+            expect(res.statusCode).to.equal(404);
         });
     });
 });

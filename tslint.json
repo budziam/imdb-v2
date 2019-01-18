@@ -23,6 +23,7 @@
     "no-magic-numbers": false,
     "no-inferred-empty-object-type": false,
     "no-parameter-properties": false,
+    "no-submodule-imports": false,
     "no-unbound-method": false,
     "no-unsafe-any": false,
     "no-void-expression": false,
