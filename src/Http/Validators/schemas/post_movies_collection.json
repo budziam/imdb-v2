@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 64
+    }
+  },
+  "required": ["name"]
+}

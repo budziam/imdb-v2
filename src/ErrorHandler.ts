@@ -1,5 +1,6 @@
+import { ValidationError } from "ajv";
 import { boundClass } from "autobind-decorator";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { injectable } from "inversify";
 import * as winston from "winston";
 import { EndpointNotFoundError } from "./Errors";
@@ -11,16 +12,23 @@ export class ErrorHandler {
         winston.error(error);
     }
 
-    public handleHttpError(e: any, req: any, res: any): Response {
+    public handleHttpError(e: any, req: Request, res: Response): Response {
         // FIXME Really shitty hack
         if (e === "ok") {
             return undefined;
         }
 
-        console.error(e);
-
         if (e instanceof EndpointNotFoundError) {
             return res.sendStatus(404);
+        }
+
+        if (e instanceof ValidationError) {
+            res.status(422);
+
+            return res.send({
+                message: e.message,
+                errors: e.errors,
+            });
         }
 
         return res.sendStatus(500);

@@ -2,12 +2,8 @@ import { Router } from "express";
 import { Container, injectable } from "inversify";
 import { RouteCollection } from "./Abstracts/RouteCollection";
 import { CommentsCollection, MoviesCollection } from "./Http/Controllers";
-import {
-    GetCommentsCollectionValidator,
-    GetMoviesCollectionValidator,
-    PostCommentsCollectionValidator,
-    PostMoviesCollectionValidator,
-} from "./Http/Validators";
+import { SchemaValidator } from "./Http/Validators";
+import { postMoviesCollection } from "./Http/Validators/schemas";
 
 @injectable()
 export class AllRoutes extends RouteCollection {
@@ -20,25 +16,25 @@ export class AllRoutes extends RouteCollection {
 
         router.get(
             "/movies",
-            this.validation(GetMoviesCollectionValidator),
+            this.validation(new SchemaValidator({})),
             this.collection(MoviesCollection),
         );
 
         router.post(
             "/movies",
-            this.validation(PostMoviesCollectionValidator),
+            this.validation(new SchemaValidator(postMoviesCollection)),
             this.collection(MoviesCollection),
         );
 
         router.get(
             "/comments",
-            this.validation(GetCommentsCollectionValidator),
+            this.validation(new SchemaValidator({})),
             this.collection(CommentsCollection),
         );
 
         router.post(
             "/comments",
-            this.validation(PostCommentsCollectionValidator),
+            this.validation(new SchemaValidator({})),
             this.collection(CommentsCollection),
         );
 

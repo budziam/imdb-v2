@@ -46,6 +46,22 @@ describe("Movies collection", () => {
             expect(json.id).to.be.a("number");
             expect(json.name).to.equal(name);
         });
+
+        it("returns 422 when invalid body given", async () => {
+            // given
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: "/movies",
+            });
+
+            // when
+            await makeRequest(app, req, res);
+
+            // then
+            expect(res.statusCode).to.equal(422);
+            const json = res._getData();
+            expect(json.message).to.equal("validation failed");
+        });
     });
 
     describe("GET", () => {

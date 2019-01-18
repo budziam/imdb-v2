@@ -19,13 +19,12 @@ export class MoviesCollection extends Collection {
 
         const movies = await this.movieRepository.list({skip, take});
 
-        res.status(200);
         // TODO Implement serializations
+        res.status(200);
         res.send(movies.map((movie) => this.serializeMovie(movie)));
     }
 
     public async post(req: Request, res: Response): Promise<void> {
-        // TODO Implement validation
         const movie = await this.movieRepository.create(req.body);
 
         res.status(201);

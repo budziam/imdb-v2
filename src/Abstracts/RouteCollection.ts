@@ -11,10 +11,10 @@ export abstract class RouteCollection {
 
     public abstract getRouter(): Router;
 
-    protected validation(className: Newable<Validator>): RequestHandler {
+    protected validation(validator: Validator): RequestHandler {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
-                await this.container.get<Validator>(className).validate(req, res);
+                await validator.validate(req, res);
                 next();
             } catch (e) {
                 next(e);
