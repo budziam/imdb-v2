@@ -3,7 +3,7 @@ import { Container, injectable } from "inversify";
 import { RouteCollection } from "./Abstracts/RouteCollection";
 import { CommentsCollection, MoviesCollection } from "./Http/Controllers";
 import { SchemaValidator } from "./Http/Validators";
-import { postMoviesCollection } from "./Http/Validators/schemas";
+import { postCommentsCollection, postMoviesCollection } from "./Http/Validators/schemas";
 
 @injectable()
 export class AllRoutes extends RouteCollection {
@@ -27,14 +27,14 @@ export class AllRoutes extends RouteCollection {
         );
 
         router.get(
-            "/comments",
+            "/movies/:movieId/comments",
             this.validation(new SchemaValidator({})),
             this.collection(CommentsCollection),
         );
 
         router.post(
-            "/comments",
-            this.validation(new SchemaValidator({})),
+            "/movies/:movieId/comments",
+            this.validation(new SchemaValidator(postCommentsCollection)),
             this.collection(CommentsCollection),
         );
 

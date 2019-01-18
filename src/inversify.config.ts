@@ -1,5 +1,4 @@
 import "reflect-metadata";
-// tslint:disable-next-line:ordered-imports
 import axios from "axios";
 import { Container } from "inversify";
 // @ts-ignore

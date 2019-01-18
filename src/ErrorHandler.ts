@@ -31,6 +31,8 @@ export class ErrorHandler {
             });
         }
 
+        winston.error(e);
+
         return res.sendStatus(500);
     }
 }

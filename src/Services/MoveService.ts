@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Movie } from "../Entities/Movie";
+import { Movie } from "../Entities";
 import { OmdbRequester } from "../OmdbRequester";
 import { MovieRepository } from "../Repositories/MovieRepository";
 

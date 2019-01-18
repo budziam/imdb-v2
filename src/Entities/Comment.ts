@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Movie } from "./Movie";
 
 @Entity()
 export class Comment {
@@ -7,4 +8,10 @@ export class Comment {
 
     @Column()
     public text: string;
+
+    @Column()
+    public createdAt: Date;
+
+    @ManyToOne(type => Movie, (movie: Movie) => movie.comments)
+    public movie: Movie;
 }

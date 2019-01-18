@@ -2,7 +2,7 @@ import { boundClass } from "autobind-decorator";
 import { Request, Response } from "express";
 import { injectable } from "inversify";
 import { Collection } from "../../Abstracts/Collection";
-import { Movie } from "../../Entities/Movie";
+import { Movie } from "../../Entities";
 import { MovieRepository } from "../../Repositories/MovieRepository";
 import { MovieService } from "../../Services/MoveService";
 

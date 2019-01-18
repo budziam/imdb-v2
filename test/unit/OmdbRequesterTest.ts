@@ -1,8 +1,8 @@
+import { mockAxios, setup } from "../utils";
 import { expect } from "chai";
 import { Container } from "inversify";
 import { OmdbRequester } from "../../src/OmdbRequester";
 import { omdbMovie } from "../Fixtures";
-import { mockAxios, setup } from "../utils";
 
 describe("Omdb requester", () => {
     let container: Container;
@@ -16,7 +16,7 @@ describe("Omdb requester", () => {
     it("finds movie by a title", async () => {
         // given
         axios.get.resolves({data: omdbMovie});
-        const omdbRequester = new OmdbRequester(axios);
+        const omdbRequester = new OmdbRequester(axios, "foobar");
 
         // when
         const movie = await omdbRequester.findByTitle("avatar");

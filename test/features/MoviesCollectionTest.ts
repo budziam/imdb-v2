@@ -1,3 +1,4 @@
+import { makeRequest, setupWithDb, tearDownWithDb } from "../utils";
 import { expect } from "chai";
 import { Express, Response } from "express";
 import { Container } from "inversify";
@@ -9,7 +10,6 @@ import { AppServer } from "../../src/AppServer";
 import { OmdbRequester } from "../../src/OmdbRequester";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
 import { omdbMovie } from "../Fixtures";
-import { makeRequest, setupWithDb, tearDownWithDb } from "../utils";
 
 describe("Movies collection", () => {
     let container: Container;

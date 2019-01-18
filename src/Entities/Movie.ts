@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from "./Comment";
 
 @Entity()
 export class Movie {
@@ -16,4 +17,10 @@ export class Movie {
 
     @Column()
     public plot: string;
+
+    @Column()
+    public createdAt: Date;
+
+    @OneToMany(type => Comment, (comment: Comment) => comment.movie)
+    public comments: Comment[];
 }

@@ -4,6 +4,7 @@
   },
   "extends": "tslint:all",
   "rules": {
+    "arrow-parens": false,
     "ban-ts-ignore": false,
     "comment-format": {
       "options": ["check-space"]
@@ -26,6 +27,7 @@
     "no-unsafe-any": false,
     "no-void-expression": false,
     "object-literal-sort-keys": false,
+    "ordered-imports": false,
     "prefer-function-over-method": false,
     "radix": false,
     "strict-boolean-expressions": false,
