@@ -9,7 +9,7 @@ import { injectable } from "inversify";
 import * as winston from "winston";
 import { RouteCollection } from "./Abstracts/RouteCollection";
 import { ErrorHandler } from "./ErrorHandler";
-import { EndpointNotFoundError } from "./Errors/EndpointNotFoundError";
+import { EndpointNotFoundError } from "./Errors";
 
 @injectable()
 @boundClass

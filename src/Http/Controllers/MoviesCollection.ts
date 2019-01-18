@@ -1,14 +1,15 @@
 import { boundClass } from "autobind-decorator";
 import { Request, Response } from "express";
 import { injectable } from "inversify";
-import { Movie } from "../Entities/Movie";
-import { MovieRepository } from "../Repositories/MovieRepository";
+import { Collection } from "../../Abstracts/Collection";
+import { Movie } from "../../Entities/Movie";
+import { MovieRepository } from "../../Repositories/MovieRepository";
 
 @injectable()
 @boundClass
-export class MoviesCollection {
+export class MoviesCollection extends Collection {
     public constructor(private readonly movieRepository: MovieRepository) {
-        //
+        super();
     }
 
     public async get(req: Request, res: Response): Promise<void> {

@@ -13,6 +13,7 @@ export const createContainer = (): Container => {
 
     const container = new Container({
         autoBindInjectable: true,
+        skipBaseClassChecks: true,
     });
 
     container.bind(Container).toConstantValue(container);

@@ -1,15 +1,12 @@
-import { boundClass } from "autobind-decorator";
 import { Request, Response } from "express";
-import { injectable } from "inversify";
+import { EndpointNotFoundError } from "../Errors";
 
-@injectable()
-@boundClass
-export class CommentsCollection {
+export abstract class Collection {
     public async get(req: Request, res: Response): Promise<void> {
-        //
+        throw new EndpointNotFoundError();
     }
 
     public async post(req: Request, res: Response): Promise<void> {
-        //
+        throw new EndpointNotFoundError();
     }
 }
