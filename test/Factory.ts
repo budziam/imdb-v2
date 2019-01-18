@@ -10,7 +10,7 @@ import { CommentRepository } from "../src/Repositories/CommentRepository";
 export class Factory {
     public constructor(
         private readonly commentRepository: CommentRepository,
-        private readonly movieRepository: MovieRepository
+        private readonly movieRepository: MovieRepository,
     ) {
         //
     }
@@ -36,7 +36,7 @@ export class Factory {
     }
 
     public async comment(attributes?: DeepPartial<Comment>): Promise<Comment> {
-        return await this.commentRepository.create({
+        return this.commentRepository.create({
             text: faker.lorem.paragraph(),
             ...attributes,
         });

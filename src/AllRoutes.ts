@@ -6,7 +6,7 @@ import { BodySchemaValidator } from "./Http/Validators";
 import {
     getMoviesCollection,
     postCommentsCollection,
-    postMoviesCollection
+    postMoviesCollection,
 } from "./Http/Validators/schemas";
 import { QuerySchemaValidator } from "./Http/Validators/QuerySchemaValidator";
 

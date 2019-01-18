@@ -112,7 +112,7 @@ describe("Movies collection", () => {
                 url: "/movies",
                 query: {
                     limit: 2,
-                }
+                },
             });
 
             // when
