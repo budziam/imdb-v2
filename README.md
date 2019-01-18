@@ -1,4 +1,4 @@
-IMDb v2 [![CircleCI](https://circleci.com/gh/budziam/imdb-v2.svg?style=svg)](https://circleci.com/gh/budziam/imdb-v2) [![Coverage Status](https://coveralls.io/repos/github/budziam/imdb-v2/badge.svg?branch=coverage)](https://coveralls.io/github/budziam/imdb-v2?branch=coverage)
+IMDb v2 [![CircleCI](https://circleci.com/gh/budziam/imdb-v2.svg?style=svg)](https://circleci.com/gh/budziam/imdb-v2) [![Coverage Status](https://coveralls.io/repos/github/budziam/imdb-v2/badge.svg?branch=master)](https://coveralls.io/github/budziam/imdb-v2?branch=master)
 =======
 Simple application storing movies and comments.
 
