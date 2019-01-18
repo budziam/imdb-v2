@@ -11,6 +11,7 @@ import { OmdbRequester } from "../../src/OmdbRequester";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
 import { omdbMovie } from "../fixtures";
 import { Factory } from "../Factory";
+import { OmdbError } from "../../src/Errors/OmdbError";
 
 describe("Movies collection", () => {
     let container: Container;
@@ -73,6 +74,24 @@ describe("Movies collection", () => {
             expect(res.statusCode).to.equal(422);
             const json = JSON.parse(res._getData());
             expect(json.message).to.equal("validation failed");
+        });
+
+        it("does not create movie when omdb fails", async () => {
+            // given
+            omdbRequester.findByTitle.rejects(new OmdbError());
+            const title = "avatar";
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: "/movies",
+                body: {title},
+            });
+
+            // when
+            await makeRequest(app, req, res);
+
+            // then
+            expect(res.statusCode).to.equal(424);
         });
     });
 

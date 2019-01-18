@@ -18,7 +18,7 @@ export class MoviesCollection extends Collection {
         super();
     }
 
-    public async get(req: Request, res: Response): Promise<void> {
+    public async get(req: Request, res: Response): Promise<any> {
         const skip = req.query.offset || 0;
         const take = req.query.limit || 50;
 
@@ -28,14 +28,14 @@ export class MoviesCollection extends Collection {
         res.json(movies.map(serializeMovie));
     }
 
-    public async post(req: Request, res: Response): Promise<void> {
+    public async post(req: Request, res: Response): Promise<any> {
+        // TODO Handle case when movie already exist
         let movie: Movie;
         try {
             movie = await this.movieService.create(req.body.title);
         } catch (e) {
             if (e instanceof OmdbError) {
-                res.status(424);
-                res.json();
+                return res.sendStatus(424);
             }
 
             throw e;

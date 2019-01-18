@@ -27,6 +27,7 @@ export const createContainer = (): Container => {
             [ConfigKey.DB_USERNAME, process.env.DB_USERNAME || "postgres"],
             [ConfigKey.DB_PASSWORD, process.env.DB_PASSWORD || ""],
             [ConfigKey.DB_DATABASE, process.env.DB_DATABASE || "app"],
+            [ConfigKey.OMDB_API_KEY, process.env.OMDB_API_KEY],
         ]))
         .inSingletonScope();
 

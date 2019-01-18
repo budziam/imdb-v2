@@ -23,8 +23,11 @@ export class OmdbRequester {
             t: title,
         };
 
-        // TODO Test what if title does not exist
-        const response = await this.axios.get<OmdbMovie>("https://www.omdbapi.com", {params});
+        const response = await this.axios.get("https://www.omdbapi.com", {params});
+
+        if (response.data.Error) {
+            throw new Error("Invalid response");
+        }
 
         return response.data;
     }

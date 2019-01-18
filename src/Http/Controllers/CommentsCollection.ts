@@ -16,14 +16,14 @@ export class CommentsCollection extends Collection {
         super();
     }
 
-    public async get(req: Request, res: Response): Promise<void> {
+    public async get(req: Request, res: Response): Promise<any> {
         const movie = await this.movieRepository.findWithCommentsOrFail(req.params.movieId);
 
         res.status(200);
         res.json(movie.comments.map(serializeComment));
     }
 
-    public async post(req: Request, res: Response): Promise<void> {
+    public async post(req: Request, res: Response): Promise<any> {
         const movie = await this.movieRepository.findOneOrFail(req.params.movieId);
         const comment = await this.commentRepository.create({
             ...req.body,

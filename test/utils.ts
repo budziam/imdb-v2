@@ -7,7 +7,7 @@ import * as sinon from "sinon";
 import * as sinonChai from "sinon-chai";
 import { Connection } from "typeorm";
 import * as winston from "winston";
-import { Config } from "../src/Config";
+import { Config, ConfigKey } from "../src/Config";
 import { createORMConnection } from "../src/typeorm.config";
 
 export const setup = (): Container => {
