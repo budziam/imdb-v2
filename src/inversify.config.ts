@@ -1,12 +1,14 @@
+import "reflect-metadata";
 // tslint:disable-next-line:ordered-imports
+import axios from "axios";
 import { Container } from "inversify";
 // @ts-ignore
 import * as env from "node-env-file";
-import "reflect-metadata";
 import { AllRoutes } from "./AllRoutes";
 import { AppServer } from "./AppServer";
 import { Config, ConfigKey } from "./Config";
 import { ErrorHandler } from "./ErrorHandler";
+import { OmdbRequester } from "./OmdbRequester";
 
 export const createContainer = (): Container => {
     env(`${__dirname}/../.env`);
@@ -40,6 +42,13 @@ export const createContainer = (): Container => {
             );
         })
         .inSingletonScope();
+
+    container.bind(OmdbRequester)
+        .toDynamicValue(() => {
+            const config = container.get<Config>(Config);
+
+            return new OmdbRequester(axios, config.get(ConfigKey.OMDB_API_KEY));
+        });
 
     return container;
 };

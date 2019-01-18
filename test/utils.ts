@@ -2,6 +2,7 @@ import * as chai from "chai";
 import * as chaiAsPromised from "chai-as-promised";
 import { Express, Request, Response } from "express";
 import { Container } from "inversify";
+import * as sinon from "sinon";
 import * as sinonChai from "sinon-chai";
 import { Connection } from "typeorm";
 import * as winston from "winston";
@@ -39,3 +40,7 @@ export const makeRequest = async (app: Express, req: Request, res: Response) =>
 
 export const sleep = async (timeout?: number): Promise<void> =>
     new Promise((resolve) => setTimeout(resolve, timeout));
+
+export const mockAxios = (): any => ({
+    get: sinon.stub(),
+});

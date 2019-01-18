@@ -2,10 +2,10 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "name": {
+    "title": {
       "type": "string",
       "maxLength": 64
     }
   },
-  "required": ["name"]
+  "required": ["title"]
 }

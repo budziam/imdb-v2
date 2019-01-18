@@ -7,6 +7,7 @@ export enum ConfigKey {
     DB_USERNAME = "DB_USERNAME",
     DB_PASSWORD = "DB_PASSWORD",
     DB_DATABASE = "DB_DATABASE",
+    OMDB_API_KEY = "DB_DATOMDB_API_KEYABASE",
 }
 
 @injectable()

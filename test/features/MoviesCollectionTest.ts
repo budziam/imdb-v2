@@ -3,8 +3,12 @@ import { Express, Response } from "express";
 import { Container } from "inversify";
 import * as httpMocks from "node-mocks-http";
 import { MockResponse } from "node-mocks-http";
+import * as sinon from "sinon";
+import { SinonStubbedInstance } from "sinon";
 import { AppServer } from "../../src/AppServer";
+import { OmdbRequester } from "../../src/OmdbRequester";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
+import { omdbMovie } from "../Fixtures";
 import { makeRequest, setupWithDb, tearDownWithDb } from "../utils";
 
 describe("Movies collection", () => {
@@ -12,6 +16,7 @@ describe("Movies collection", () => {
     let appServer: AppServer;
     let app: Express;
     let res: MockResponse<Response>;
+    let omdbRequester: SinonStubbedInstance<OmdbRequester>;
     let movieRepository: MovieRepository;
 
     beforeEach(async () => {
@@ -19,6 +24,8 @@ describe("Movies collection", () => {
         appServer = container.get<AppServer>(AppServer);
         app = appServer.app;
         res = httpMocks.createResponse();
+        omdbRequester = sinon.createStubInstance(OmdbRequester);
+        container.rebind(OmdbRequester).toConstantValue(omdbRequester as any);
         movieRepository = container.get<MovieRepository>(MovieRepository);
     });
 
@@ -29,12 +36,13 @@ describe("Movies collection", () => {
     describe("POST", () => {
         it("creates new movie", async () => {
             // given
-            const name = "test";
+            omdbRequester.findByTitle.resolves(omdbMovie);
+            const title = "avatar";
 
             const req = httpMocks.createRequest({
                 method: "POST",
                 url: "/movies",
-                body: {name},
+                body: {title},
             });
 
             // when
@@ -44,7 +52,8 @@ describe("Movies collection", () => {
             expect(res.statusCode).to.equal(201);
             const json = res._getData();
             expect(json.id).to.be.a("number");
-            expect(json.name).to.equal(name);
+            expect(json.title).to.equal(title);
+            expect(json.plot).to.equal(omdbMovie.Plot);
         });
 
         it("returns 422 when invalid body given", async () => {
@@ -67,8 +76,12 @@ describe("Movies collection", () => {
     describe("GET", () => {
         it("returns list of movies", async () => {
             // given
+            // TODO Move it to factories
             const movie = await movieRepository.create({
-                name: "example",
+                title: "example",
+                year: 2018,
+                released: "asdas",
+                plot: "blah",
             });
 
             const req = httpMocks.createRequest({
@@ -84,7 +97,10 @@ describe("Movies collection", () => {
             expect(res._getData()).to.deep.equal([
                 {
                     id: movie.id,
-                    name: movie.name,
+                    title: movie.title,
+                    plot: movie.plot,
+                    released: movie.released,
+                    year: movie.year,
                 },
             ]);
         });

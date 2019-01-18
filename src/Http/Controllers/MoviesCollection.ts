@@ -4,11 +4,15 @@ import { injectable } from "inversify";
 import { Collection } from "../../Abstracts/Collection";
 import { Movie } from "../../Entities/Movie";
 import { MovieRepository } from "../../Repositories/MovieRepository";
+import { MovieService } from "../../Services/MoveService";
 
 @injectable()
 @boundClass
 export class MoviesCollection extends Collection {
-    public constructor(private readonly movieRepository: MovieRepository) {
+    public constructor(
+        private readonly movieRepository: MovieRepository,
+        private readonly movieService: MovieService,
+    ) {
         super();
     }
 
@@ -25,7 +29,7 @@ export class MoviesCollection extends Collection {
     }
 
     public async post(req: Request, res: Response): Promise<void> {
-        const movie = await this.movieRepository.create(req.body);
+        const movie = await this.movieService.create(req.body.title);
 
         res.status(201);
         res.send(this.serializeMovie(movie));
@@ -34,7 +38,10 @@ export class MoviesCollection extends Collection {
     private serializeMovie(movie: Movie): object {
         return {
             id: movie.id,
-            name: movie.name,
+            title: movie.title,
+            year: movie.year,
+            released: movie.released,
+            plot: movie.plot,
         };
     }
 }

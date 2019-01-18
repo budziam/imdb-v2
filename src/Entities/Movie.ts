@@ -6,5 +6,14 @@ export class Movie {
     public id: number;
 
     @Column()
-    public name: string;
+    public title: string;
+
+    @Column()
+    public year: number;
+
+    @Column()
+    public released: string;
+
+    @Column()
+    public plot: string;
 }

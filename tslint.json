@@ -11,6 +11,7 @@
     "completed-docs": false,
     "file-name-casing": false,
     "interface-name": false,
+    "match-default-export-name": false,
     "member-ordering": false,
     "newline-per-chained-call": false,
     "no-any": false,
