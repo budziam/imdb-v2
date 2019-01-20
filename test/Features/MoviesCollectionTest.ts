@@ -11,7 +11,7 @@ import { OmdbRequester } from "../../src/OmdbRequester";
 import { MovieRepository } from "../../src/Repositories/MovieRepository";
 import { omdbMovie } from "../fixtures";
 import { Factory } from "../Factory";
-import { OmdbError } from "../../src/Errors/OmdbError";
+import { OmdbError } from "../../src/Errors";
 
 describe("Movies collection", () => {
     let container: Container;
@@ -58,6 +58,27 @@ describe("Movies collection", () => {
             expect(json.id).to.be.a("number");
             expect(json.title).to.equal(title);
             expect(json.plot).to.equal(omdbMovie.Plot);
+            expect(await movieRepository.count()).to.equal(1);
+        });
+
+        it("returns 409 when movie already exists", async () => {
+            // given
+            omdbRequester.findByTitle.resolves(omdbMovie);
+            const movie = await factory.movie();
+            const title = movie.title;
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: "/movies",
+                body: {title},
+            });
+
+            // when
+            await makeRequest(app, req, res);
+
+            // then
+            expect(res.statusCode).to.equal(409);
+            expect(await movieRepository.count()).to.equal(1);
         });
 
         it("returns 422 when invalid body given", async () => {
@@ -74,9 +95,10 @@ describe("Movies collection", () => {
             expect(res.statusCode).to.equal(422);
             const json = JSON.parse(res._getData());
             expect(json.message).to.equal("validation failed");
+            expect(await movieRepository.count()).to.equal(0);
         });
 
-        it("does not create movie when omdb fails", async () => {
+        it("returns 424 when omdb fails", async () => {
             // given
             omdbRequester.findByTitle.rejects(new OmdbError());
             const title = "avatar";
@@ -92,6 +114,7 @@ describe("Movies collection", () => {
 
             // then
             expect(res.statusCode).to.equal(424);
+            expect(await movieRepository.count()).to.equal(0);
         });
     });
 

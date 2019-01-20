@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { Connection, DeepPartial, FindManyOptions, Repository } from "typeorm";
 import { Movie } from "../Entities";
+import { AlreadyExistsError } from "../Errors";
 
 @injectable()
 export class MovieRepository {
@@ -29,5 +30,20 @@ export class MovieRepository {
             createdAt: new Date(),
             ...attributes,
         });
+    }
+
+    public async count(): Promise<number> {
+        return this.movieRepository.count();
+    }
+
+    public async createOrFail(attributes: DeepPartial<Movie>): Promise<Movie> {
+        // TODO Think about running it inside a transaction
+        const movie = await this.movieRepository.findOne({title: attributes.title});
+
+        if (movie) {
+            throw new AlreadyExistsError(`Movie [${movie.title}] already exists`);
+        }
+
+        return this.create(attributes);
     }
 }

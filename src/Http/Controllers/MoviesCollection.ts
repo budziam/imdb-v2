@@ -4,8 +4,8 @@ import { injectable } from "inversify";
 import { Collection } from "../../Abstracts/Collection";
 import { Movie } from "../../Entities";
 import { MovieRepository } from "../../Repositories/MovieRepository";
-import { MovieService } from "../../Services/MoveService";
-import { OmdbError } from "../../Errors/OmdbError";
+import { MovieService } from "../../Services/MovieService";
+import { AlreadyExistsError, OmdbError } from "../../Errors";
 import { serializeMovie } from "../../serializers";
 
 @injectable()
@@ -29,13 +29,16 @@ export class MoviesCollection extends Collection {
     }
 
     public async post(req: Request, res: Response): Promise<any> {
-        // TODO Handle case when movie already exist
         let movie: Movie;
         try {
             movie = await this.movieService.create(req.body.title);
         } catch (e) {
             if (e instanceof OmdbError) {
                 return res.sendStatus(424);
+            }
+
+            if (e instanceof AlreadyExistsError) {
+                return res.sendStatus(409);
             }
 
             throw e;

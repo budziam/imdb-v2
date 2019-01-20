@@ -1,7 +1,8 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Comment } from "./Comment";
 
 @Entity()
+@Unique(["title"])
 export class Movie {
     @PrimaryGeneratedColumn()
     public id: number;

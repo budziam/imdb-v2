@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { Movie } from "../Entities";
 import { OmdbMovie, OmdbRequester } from "../OmdbRequester";
 import { MovieRepository } from "../Repositories/MovieRepository";
-import { OmdbError } from "../Errors/OmdbError";
+import { OmdbError } from "../Errors";
 
 @injectable()
 export class MovieService {
@@ -13,6 +13,10 @@ export class MovieService {
         //
     }
 
+    /**
+     * @throws {OmdbError}
+     * @throws {AlreadyExistsError}
+     */
     public async create(title: string): Promise<Movie> {
         let omdbMovie: OmdbMovie;
         try {
@@ -22,7 +26,7 @@ export class MovieService {
             throw new OmdbError("Could not find a movie");
         }
 
-        return this.movieRepository.create({
+        return this.movieRepository.createOrFail({
             title,
             year: parseInt(omdbMovie.Year),
             released: omdbMovie.Released,
